@@ -9,7 +9,7 @@ const getPromptForStage = (userDescription: string, stageId: number, hasReferenc
   if (hasReference) {
     switch (stageId) {
       case 1:
-        return `Transform this image into its earliest stage: a single, rough, abstract blob of wet grey clay representing only the general outline of the subject shown with no details or features. For example, for a head of a person or animal, you should be able to see the shape of the head but not the nose, eyes, ears, etc. Maintain the same camera angle and lighting.`;
+        return `Transform this image into the very first stage: a single, rough round blob of wet grey clay representing only the general outline of the sculpture. Maintain the same camera angle and lighting.`;
       case 2:
         return `Transform this image into a blocking stage: a wet grey clay construction divided into major geometric sub-blocks and masses (like head, body, limbs) showing the configuration of the subject shown. Remove fine details like eyes or texture. Keep the pose and orientation exactly as in the reference. Constructivist style.`;
       case 3:
