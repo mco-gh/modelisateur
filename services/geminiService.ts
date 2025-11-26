@@ -9,9 +9,9 @@ const getPromptForStage = (userDescription: string, stageId: number, hasReferenc
   if (hasReference) {
     switch (stageId) {
       case 1:
-        return `Transform this image into the very first stage: a single, rough round blob of wet grey clay representing only the general outline of the sculpture. Maintain the same camera angle and lighting.`;
+        return `Transform this image into the very first stage: a parallelepiped with rounded edges and corners where the angles reflect the general shape of the finished product, in wet grey clay. Maintain the same camera angle and lighting.`;
       case 2:
-        return `Transform this image into a blocking stage: a wet grey clay construction divided into major geometric sub-blocks and masses (like head, body, limbs) showing the configuration of the subject shown. Remove fine details like eyes or texture. Keep the pose and orientation exactly as in the reference. Constructivist style.`;
+        return `Transform this image into a blocking stage: a wet grey clay construction divided into major geometric masses (like head, body, limbs) showing the configuration of the subject shown. Remove fine details like eyes or texture. Keep the pose and orientation exactly as in the reference. Constructivist style.`;
       case 3:
         //return `Transform this image into a work-in-progress stage: the wet grey clay sculpture is taking shape. Primary forms are smoothed together. Details are just beginning to emerge but are still rough compared to the reference. Add visible tool marks, rake marks, and fingerprints. Maintain the exact pose and composition.`;
         return `Transform this image into a work-in-progress stage halfway between rough blocks and the final image. Maintain the exact pose and composition.`;
