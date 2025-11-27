@@ -44,7 +44,15 @@ export default function App() {
   useEffect(() => {
     async function checkKey() {
       try {
-        const hasKey = await window.aistudio.hasSelectedApiKey();
+        const envApiKey = import.meta.env.VITE_API_KEY;
+        let hasKey = false;
+
+        if (window.aistudio) {
+          hasKey = await window.aistudio.hasSelectedApiKey();
+        } else {
+          hasKey = !!envApiKey; 
+        }
+        console.log("API Key present:", hasKey);
         setApiKeyReady(hasKey);
       } catch (e) {
         console.error("Error checking API key:", e);
