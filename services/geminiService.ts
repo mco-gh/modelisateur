@@ -9,12 +9,17 @@ const getPromptForStage = (userDescription: string, stageId: number, hasReferenc
   if (hasReference) {
     switch (stageId) {
       case 1:
-        return `Transform this image into the very first stage: a parallelepiped with rounded edges and corners where the angles reflect the general shape of the finished product, in wet grey clay. Maintain the same camera angle and lighting.`;
+        // Stage 1: One ball of clay / General shape / No detail
+        return `Transform this reference image of ${userDescription} into the very first stage of sculpting: A single, smooth, amorphous lump of wet grey clay. It should capture the approximate volume and silhouette of the subject but must have ABSOLUTELY NO INTERNAL DETAIL. No face, no limbs defined, no texture. It should look like a smooth potato-shaped mass or a river stone in the vague shape of the subject. Keep the exact same camera angle and lighting.`;
+      
       case 2:
-        return `Transform this image into a blocking stage: a wet grey clay construction divided into major geometric masses (like head, body, limbs) showing the configuration of the subject shown. Remove fine details like eyes or texture. Keep the pose and orientation exactly as in the reference. Constructivist style.`;
+        // Stage 2: Sub-blocks / Configuration / No details
+        return `Transform this reference image of ${userDescription} into the blocking stage: The subject is constructed from distinct, crude geometric masses of clay (spheres, cylinders, blocks) pressed together. It shows the correct configuration, pose, and orientation of the final product, but the forms are simple and facetted. NO fine details, NO eyes, NO hair texture. It looks like a low-resolution structural study. Keep the exact same camera angle.`;
+      
       case 3:
-        //return `Transform this image into a work-in-progress stage: the wet grey clay sculpture is taking shape. Primary forms are smoothed together. Details are just beginning to emerge but are still rough compared to the reference. Add visible tool marks, rake marks, and fingerprints. Maintain the exact pose and composition.`;
-        return `Transform this image into a work-in-progress stage halfway between rough blocks and the final image. Maintain the exact pose and composition.`;
+        // Stage 3: Details begin to emerge
+        return `Transform this reference image of ${userDescription} into a work-in-progress stage: The geometric blocks have been smoothed together and the primary anatomy is defined. Details are just beginning to emerge—eyes and features are faintly marked or sketched. The surface is rough, covered in rake marks, thumb prints, and clay pellets. It looks like an expressive, unfinished bozzetto. Keep the exact same camera angle.`;
+      
       default:
         return `A clay sculpture of ${userDescription}`;
     }
@@ -22,10 +27,10 @@ const getPromptForStage = (userDescription: string, stageId: number, hasReferenc
 
   // Initial generation (Stage 4)
   if (stageId === 4) {
-      return `A finished, highly detailed masterpiece wet grey clay sculpture of ${baseObject}. Intricate textures, lifelike details, perfect proportions. The clay looks wet and malleable. Dramatic studio lighting. Photorealistic studio photography.`;
+      return `A finished, highly detailed masterpiece wet grey clay sculpture of ${userDescription}. Intricate textures, lifelike details, perfect proportions. The clay looks wet and malleable. Dramatic studio lighting. Photorealistic studio photography.`;
   }
 
-  // Fallback if something weird happens (e.g. Stage 1 without reference, though app logic prevents this)
+  // Fallback
   return `A clay sculpture of ${userDescription}`;
 };
 
@@ -46,7 +51,7 @@ export const generateStageImage = async (userPrompt: string, stageId: number, re
         parts.push({
             inlineData: {
                 data: base64Data,
-                mimeType: 'image/png' // We assume PNG based on previous output, but could be dynamic
+                mimeType: 'image/png' // We assume PNG based on previous output
             }
         });
     }
@@ -55,7 +60,6 @@ export const generateStageImage = async (userPrompt: string, stageId: number, re
     parts.push({ text: stagePrompt });
 
     // Using the requested High-Quality model (Gemini 3 Pro Image)
-    // Note: To use image input for editing/variation, the model supports it via generateContent
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-image-preview',
       contents: {
